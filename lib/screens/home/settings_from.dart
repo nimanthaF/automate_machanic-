@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,8 @@ class _SettingsFormState extends State<SettingsForm> {
   String _address;
   String _downloadUrl;
   String _userId;
+  bool _uploaded;
+
 
  Future downloadImage()async{
     StorageReference _reference=FirebaseStorage.instance.ref().child("images/$_userId.png");
@@ -35,6 +38,7 @@ class _SettingsFormState extends State<SettingsForm> {
       _downloadUrl=downloadAddress;
     });
   }
+ 
 
 
   @override
@@ -45,7 +49,7 @@ class _SettingsFormState extends State<SettingsForm> {
       _userId = user.uid;
     });
 
-   
+    downloadImage();
     return StreamBuilder<MechanicData>(
       stream: DatabaseServices(uid: user.uid).mechanicDataModel,
       builder: (context, snapshot) {
@@ -115,6 +119,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
+                  
                   if(_formKey.currentState.validate()){
                     await DatabaseServices(uid: user.uid).updateMechanicData(
                       _currentName ?? mechanicData.name,
@@ -123,6 +128,7 @@ class _SettingsFormState extends State<SettingsForm> {
                       _address ?? mechanicData.address,
                       mechanicData.rating,
                       _downloadUrl,
+                     
                     );
                     Navigator.pop(context);
                   }

@@ -60,9 +60,11 @@ class _ImageCapState extends State<ImageCap> {
     });
 
     return Container(
-      child: Row(
+      child: Column(
         children: <Widget>[
-          RaisedButton(
+          Row(
+            children: <Widget>[
+              RaisedButton(
             child: Text("Camera"),
             onPressed: (){
               getImage(true);
@@ -76,6 +78,9 @@ class _ImageCapState extends State<ImageCap> {
               getImage(false);
             },
           ),
+            ],
+          ),
+          SizedBox(height: 8.0,),
           _imageFile==null? Container(): Image.file(_imageFile,height: 300.0,width: 300.0,),
           _imageFile==null? Container(): RaisedButton(
             child: Text("upload image"),
@@ -83,15 +88,10 @@ class _ImageCapState extends State<ImageCap> {
               uploadImage();
             },
           ),
-          /*
-          _uploaded==false ? Container() : RaisedButton(
-            child: Text("Download image"),
-            onPressed: (){
-              downloadImage();
-            },
           
-          ),
-          */
+          
+          _uploaded==false ? Container() : Text('image uploaded sucessfully!'),
+          
           //_downloadUrl==null ? Container(): Image.network(_downloadUrl),
         ],
       ),

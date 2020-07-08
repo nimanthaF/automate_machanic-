@@ -22,6 +22,7 @@ class DatabaseServices{
       'address':address,
       'rating':rating,
       'image':imageUrl,
+      
     });
   }
 

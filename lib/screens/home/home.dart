@@ -1,9 +1,13 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mechanic_app/screens/home/settings_from.dart';
+import 'package:mechanic_app/screens/home/showsettings.dart';
 import 'package:mechanic_app/screens/home/userprofile.dart';
 import 'package:mechanic_app/screens/services/auth.dart';
+import 'package:mechanic_app/screens/shared/colors.dart';
+import 'package:mechanic_app/screens/home/map.dart';
 
 
 class Home extends StatefulWidget {
@@ -18,6 +22,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
+    
+
     void _showSettingdPanel(){
       showModalBottomSheet(context: context, builder: (context){
         
@@ -28,6 +34,7 @@ class _HomeState extends State<Home> {
       });
     }
     return Scaffold(
+      
       appBar: AppBar(
         title: Text("Home sweet home"),
         actions: <Widget>[/*
@@ -41,20 +48,21 @@ class _HomeState extends State<Home> {
           FlatButton.icon(
               icon: Icon(Icons.settings),
               label: Text('settings'),
-              onPressed: ()=> _showSettingdPanel(),
+              onPressed:(){
+                Navigator.push(context,
+                MaterialPageRoute(builder: (context)=>ShowSettings()));
+              },
             )
         ],
       ),
       body:Card(
+        
         child: ListView(
           children: <Widget>[
-            ListTile(
-              title: UserProfile(),
-
-            )
+            UserProfile(),
           ],
         ),
-        color: Colors.lime[400],
+        
       ),
       drawer: Drawer(
   child: ListView(
@@ -73,7 +81,16 @@ class _HomeState extends State<Home> {
           await _auth.signOut();
         },
       ),
-      
+      ListTile(
+        title: Text('location'),
+        leading: Icon(Icons.location_on),
+        onTap: () async {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context)=>Map()),
+          );
+        },
+      ),
       
     ],
   ),
@@ -82,3 +99,4 @@ class _HomeState extends State<Home> {
   );
   }
 }
+
